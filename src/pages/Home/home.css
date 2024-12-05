@@ -1,0 +1,66 @@
+section,
+.Background-container {
+  margin: 0;
+  padding: 0;
+}
+
+.home-container {
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  perspective: 70px;
+}
+
+.background-container {
+  position: relative;
+  height: 100%;
+  transform-style: preserve-3d;
+  z-index: -1;
+}
+
+.Background-7,
+.Background-6,
+.Background-5,
+.Background-4,
+.Background-3,
+.Background-2,
+.Background-1 {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.Background-7 {
+  transform: translateZ(-69px) scale(2);
+}
+
+.Background-6 {
+  transform: translateZ(-59px) scale(1.8571);
+}
+
+.Background-5 {
+  transform: translateZ(-49px) scale(1.7142);
+}
+
+.Background-4 {
+  transform: translateZ(-39px) scale(1.5714);
+}
+
+.Background-3 {
+  transform: translateZ(-29px) scale(1.4285);
+}
+
+.Background-2 {
+  transform: translateZ(-19px) scale(1.2857);
+}
+
+.Background-1 {
+  transform: translateZ(0px) scale(1);
+  /* height: 101%; */
+}
+
+section {
+  background-color: #171121;
+}
