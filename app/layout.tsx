@@ -1,9 +1,11 @@
+// layout.tsx
 
 import './globals.css';
+import { Metadata } from 'next';
 
-export const metadata = {
-  title: 'My Portfolio',
-  description: 'A cool portfolio built with Next.js',
+export const metadata: Metadata = {
+  title: 'Creative Developer Portfolio',
+  description: 'A portfolio showcasing creative web development work',
 };
 
 export default function RootLayout({
@@ -13,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className='light'>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
