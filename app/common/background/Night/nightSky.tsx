@@ -54,6 +54,7 @@ const NightSky: React.FC = () => {
   const dy = useRef(0);
   const [interactionEnabled, setInteractionEnabled] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [isPointerOverAsteroid, setIsPointerOverAsteroid] = useState(false);
 
   const initializeStars = () => {
     if (!canvasRef.current) return;
@@ -204,17 +205,36 @@ const NightSky: React.FC = () => {
     mouseX.current = e.clientX;
     mouseY.current = e.clientY;
     mouseRef.current.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
+    
+    // Check if pointer is over an asteroid
+    checkPointerOverAsteroid();
+    
     if (selectedAsteroidRef.current && !selectedAsteroidRef.current.userData.isThrown && !isMobile) {
       updateSelectedAsteroidPosition();
     }
   };
 
+  // Check if pointer is over an asteroid to manage pointer events
+  const checkPointerOverAsteroid = () => {
+    if (!cameraRef.current || !sceneRef.current) return;
+    raycasterRef.current.setFromCamera(mouseRef.current, cameraRef.current!);
+    const intersects = raycasterRef.current.intersectObjects(asteroidsRef.current, true);
+    setIsPointerOverAsteroid(intersects.length > 0);
+  };
+
   const handlePointerDown = (e: PointerEvent) => {
     if (!interactionEnabled || isMobile) return;
-    touchStartTimeRef.current = performance.now();
-    touchStartPositionRef.current = { x: e.clientX, y: e.clientY };
-    mouseRef.current.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
-    checkAsteroidIntersection();
+    
+    // Check if pointer is over an asteroid
+    raycasterRef.current.setFromCamera(mouseRef.current, cameraRef.current!);
+    const intersects = raycasterRef.current.intersectObjects(asteroidsRef.current, true);
+    
+    // Only handle if over an asteroid
+    if (intersects.length > 0) {
+      touchStartTimeRef.current = performance.now();
+      touchStartPositionRef.current = { x: e.clientX, y: e.clientY };
+      checkAsteroidIntersection();
+    }
   };
 
   const handlePointerUp = () => {
@@ -529,7 +549,14 @@ const NightSky: React.FC = () => {
   return (
     <div className="w-full h-full relative overflow-hidden">
       <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0" aria-hidden="true" />
-      <div ref={threeContainerRef} className="fixed top-0 left-0 w-full h-full z-20 pointer-events-auto" aria-hidden="true" />
+      <div 
+        ref={threeContainerRef} 
+        className="fixed top-0 left-0 w-full h-full z-20" 
+        style={{ 
+          pointerEvents: isPointerOverAsteroid ? 'auto' : 'none'
+        }}
+        aria-hidden="true" 
+      />
     </div>
   );
 };
