@@ -13,7 +13,7 @@ type Props = {
 };
 
 const Header: React.FC<Props> = ({
-  title = "Portfolio",
+  title = "KirtanKumar Thummar",
   darkMode,
   // onToggle,
 }) => {
@@ -45,6 +45,7 @@ const Header: React.FC<Props> = ({
         {[
           { name: "Home", icon: icons.Home },
           { name: "Projects", icon: icons.Projects },
+          { name: "Blogs", icon: icons.Blog },
           { name: "About", icon: icons.About },
           { name: "Contact", icon: icons.Contact },
         ].map(({ name, icon: IconComponent }) => (
@@ -104,7 +105,7 @@ const Header: React.FC<Props> = ({
               {title}
             </h1>
             <nav className="hidden md:flex items-center gap-6">
-              {["Home", "Projects", "About", "Contact"].map((item) => (
+              {["Home", "Projects", "Blogs", "About", "Contact"].map((item) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase()}`}
