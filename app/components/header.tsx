@@ -5,7 +5,7 @@
 
 import React, { useState } from "react";
 import { icons } from "../media/icons";
-import ThemeToggle from "../common/button/themeToggle";
+// import ThemeToggle from "../common/button/themeToggle";
 import FlipText from "../common/styling/flipText";
 
 type Props = {
