@@ -67,6 +67,14 @@
   --z-dropdown: 20;
   --z-modal: 30;
   --z-tooltip: 40;
+
+  --glow-twitter: #1DA1F2;
+  --glow-instagram: #E1306C;
+  --glow-linkedin: #0077B5;
+  --glow-github: #6e5494;
+  --glow-spread: 8px;
+  --glow-opacity: 0.7;
+  --transition-speed: 0.2s;
 }
 
 /* Dark mode overrides */
@@ -87,6 +95,7 @@ body {
   background-color: var(--color-background);
   color: var(--color-text-primary);
   line-height: 1.5;
+  cursor: url('/media/png/night_cursor.png') 2 2, auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -162,4 +171,113 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb {
   background: var(--color-primary);
   border-radius: var(--radius-full);
+}
+
+/* Character container styles */
+.flip-text-container {
+  display: inline-flex;
+  flex-wrap: wrap;
+  position: relative;
+  --delay-between-chars: 30ms; /* Default, can be overridden from props */
+}
+
+/* Each character */
+.flip-text-char {
+  display: inline-block;
+  position: relative;
+  transition: color var(--transition-normal);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  --char-index: 0; /* Dynamically set from JS */
+}
+
+/* Whitespace handling */
+.flip-text-char:empty {
+  width: 0.25em;
+}
+
+/* On hover, trigger both the flip and a concurrent glow pulse */
+.flip-text-container:hover .flip-text-char {
+  animation: 
+    flipChar var(--transition-normal) forwards, 
+    textGlow 1.5s ease-in-out infinite;
+  animation-delay: calc(var(--char-index) * var(--delay-between-chars));
+}
+
+/* Flip animation with embedded glow on the transition */
+@keyframes flipChar {
+  0% {
+    transform: perspective(400px) rotateX(0);
+    color: inherit;
+    text-shadow: none;
+  }
+  49% {
+    color: inherit;
+    text-shadow: none;
+  }
+  50% {
+    transform: perspective(400px) rotateX(90deg);
+    color: inherit;
+    text-shadow: none;
+  }
+  51% {
+    /* Shortly after the flip midpoint, change color and add a glow */
+    transform: perspective(400px) rotateX(90deg);
+    color: var(--color-text-accent);
+    text-shadow: 0 0 10px var(--color-text-accent);
+  }
+  100% {
+    transform: perspective(400px) rotateX(0);
+    color: var(--color-text-accent);
+    text-shadow: 0 0 10px var(--color-text-accent);
+  }
+}
+
+/* Separate glow animation to pulse the text-shadow */
+@keyframes textGlow {
+  0%, 100% {
+    text-shadow: 0 0 3px var(--color-text-accent);
+  }
+  50% {
+    text-shadow: 0 0 3px var(--color-text-accent);
+  }
+}
+
+
+/* Icon glow hover effects */
+.icon-glow {
+  position: relative;
+  transition: all var(--transition-speed) ease;
+}
+
+.icon-glow svg {
+  transition: filter var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+/* Twitter/X glow */
+.icon-glow-twitter:hover svg {
+  color: var(--glow-twitter) !important;
+  filter: drop-shadow(0 0 var(--glow-spread) var(--glow-twitter));
+  transform: scale(1.1);
+}
+
+/* Instagram glow */
+.icon-glow-instagram:hover svg {
+  color: var(--glow-instagram) !important;
+  filter: drop-shadow(0 0 var(--glow-spread) var(--glow-instagram));
+  transform: scale(1.1);
+}
+
+/* LinkedIn glow */
+.icon-glow-linkedin:hover svg {
+  color: var(--glow-linkedin) !important;
+  filter: drop-shadow(0 0 var(--glow-spread) var(--glow-linkedin));
+  transform: scale(1.1);
+}
+
+/* GitHub glow */
+.icon-glow-github:hover svg {
+  color: var(--glow-github) !important;
+  filter: drop-shadow(0 0 var(--glow-spread) var(--glow-github));
+  transform: scale(1.1);
 }
