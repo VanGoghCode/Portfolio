@@ -5,6 +5,8 @@
 
 import React, { useState } from "react";
 import { icons } from "../media/icons";
+// import ThemeToggle from "../common/button/themeToggle";
+import FlipText from "../common/styling/flipText";
 
 type Props = {
   title?: string;
@@ -13,7 +15,7 @@ type Props = {
 };
 
 const Header: React.FC<Props> = ({
-  title = "Portfolio",
+  title = "KIRTAN",
   darkMode,
   // onToggle,
 }) => {
@@ -45,6 +47,7 @@ const Header: React.FC<Props> = ({
         {[
           { name: "Home", icon: icons.Home },
           { name: "Projects", icon: icons.Projects },
+          { name: "Blogs", icon: icons.Blog },
           { name: "About", icon: icons.About },
           { name: "Contact", icon: icons.Contact },
         ].map(({ name, icon: IconComponent }) => (
@@ -63,7 +66,7 @@ const Header: React.FC<Props> = ({
                     : 'var(--color-text-primary)' 
                 }}
               >
-                {name}
+                <FlipText text={name} />
               </span>
             </div>
           </a>
@@ -92,7 +95,7 @@ const Header: React.FC<Props> = ({
               : 'var(--color-secondary)'
           }}
         >
-          <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-2 sm:px-6 sm:py-2">
+          <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-6 sm:px-6">
             <h1 
               className="text-lg sm:text-xl font-bold"
               style={{ 
@@ -104,7 +107,7 @@ const Header: React.FC<Props> = ({
               {title}
             </h1>
             <nav className="hidden md:flex items-center gap-6">
-              {["Home", "Projects", "About", "Contact"].map((item) => (
+              {["Home", "Projects", "Blogs", "About", "Contact"].map((item) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase()}`}
@@ -113,12 +116,14 @@ const Header: React.FC<Props> = ({
                     ${darkMode ? 'text-[var(--color-text-light)]' : 'text-[var(--color-text-primary)]'}
                   `}
                 >
-                  {item}
+                <FlipText text={item} />
                 </a>
               ))}
+              {/* <ThemeToggle onToggle={onToggle} /> */}
             </nav>
             {/* Mobile Menu Button with animation */}
             <div className="md:hidden flex items-center gap-2">
+              {/* <ThemeToggle onToggle={onToggle} /> */}
               {/* <button 
                 onClick={onToggle}
                 className="p-2 rounded-full transition-all duration-300 mr-2"
