@@ -8,7 +8,7 @@ const HeroSection: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [typedText, setTypedText] = useState('');
   const [cursorVisible, setCursorVisible] = useState(true);
-  const fullText = 'Build like an artist ...';
+  const fullText = 'Build like an Artist ...';
   const typingSpeed = 100;
   const cursorBlinkRef = useRef<NodeJS.Timeout | null>(null);
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
