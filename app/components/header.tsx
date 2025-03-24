@@ -15,7 +15,7 @@ type Props = {
 };
 
 const Header: React.FC<Props> = ({
-  title = "KIRTAN",
+  title = "K | R t A n",
   darkMode,
   // onToggle,
 }) => {
@@ -95,12 +95,12 @@ const Header: React.FC<Props> = ({
               : 'var(--color-secondary)'
           }}
         >
-          <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-6 sm:px-6">
+          <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-4 sm:px-6">
             <h1 
-              className="text-lg sm:text-xl font-bold"
+              className="sm:text-xl font-bold glow-text"
               style={{ 
                 color: darkMode 
-                  ? 'var(--color-text-light)' 
+                  ? 'var(--color-secondary)' 
                   : 'var(--color-text-primary)' 
               }}
             >

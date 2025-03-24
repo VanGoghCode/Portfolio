@@ -133,7 +133,7 @@ const NightSky: React.FC = () => {
     scene.add(rimLight);
     lightsRef.current.push(rimLight);
     const loader = new GLTFLoader();
-    const asteroidCount = window.innerWidth < 768 ? 10 : 50;
+    const asteroidCount = window.innerWidth < 768 ? 7 : 25;
     loader.load(
       "media/glb/asteroid2.glb",
       (gltf: GLTF) => {
