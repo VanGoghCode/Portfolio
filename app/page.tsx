@@ -1,10 +1,13 @@
+// page.tsx
+
 "use client";
 
 import { useState } from "react";
-import Header from "./components/header";
+import Header from "./components/home/header";
 import NightSky from "./common/background/Night/nightSky";
-import HeroSection from "./components/hero-section";
-import Footer from "./components/footer";
+import HeroSection from "./components/home/hero-section";
+import Footer from "./components/home/footer";
+import About from "./components/about/about";
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(true);
@@ -22,7 +25,13 @@ export default function Home() {
             <HeroSection />
           </section>
           <section
-            id="home"
+            id="about"
+            className="min-h-screen flex items-center justify-center"
+          >
+            <About />
+          </section>
+          <section
+            id="contact"
             className="flex items-end justify-center"
           >
             <Footer />

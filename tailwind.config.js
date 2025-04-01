@@ -17,7 +17,6 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-primary)'],
-        accent: ['var(--font-accent)'],
       },
       transitionTimingFunction: {
         'custom': 'var(--transition-normal)',

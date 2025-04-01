@@ -9,9 +9,10 @@
 
 /* Global CSS Variables */
 :root {
+  scroll-behavior: smooth;
+  
   /* Typography */
-  --font-primary: 'Poppins', sans-serif;
-  --font-accent: 'Megrim', sans-serif;
+  --font-primary: 'Poppins', sans-serif;  
   
   /* Color Palette - Main */
   --color-background: #F8F9FA;
@@ -36,6 +37,8 @@
   --color-star-white: #FFFFFF;
   --color-star-orange: #FFC87C;
   --color-star-blue: #7CB8FF;
+  --color-star-purple: #9c6ade;
+  --color-star-green: #36b37e;
   
   /* Spacing System */
   --space-xs: 0.25rem;  /* 4px */
@@ -101,11 +104,6 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
-}
-
-/* Utility Classes */
-.font-accent {
-  font-family: var(--font-accent);
 }
 
 .text-gradient {
@@ -296,4 +294,188 @@ h1, h2, h3, h4, h5, h6 {
                0 0 100px var(--color-secondary),
                0 0 50px var(--color-secondary),
                0 0 50px var(--color-secondary);
+}
+
+/* Profile Image */
+.profile-image {
+  position: relative;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--color-secondary);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-star-blue);
+  box-shadow: 0 0 20px var(--color-star-blue);
+}
+
+@media (min-width: 640px) {
+  .profile-image {
+    width: 14rem;
+    height: 14rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .profile-image {
+    width: 15rem;
+    height: 15rem;
+  }
+}
+
+/* Heading size */
+.heading-size {
+  font-size: clamp(1.75rem, 5vw, 2rem);
+}
+
+/* Timeline Styles */
+.timeline-container {
+  position: relative;
+  max-height: 400px;
+  overflow: auto;
+  padding-right: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) transparent;
+}
+
+.timeline-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.timeline-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.timeline-container::-webkit-scrollbar-thumb {
+  background: var(--color-accent, rgba(30, 144, 255, 0.5));
+  border-radius: 10px;
+}
+
+.timeline-container::-webkit-scrollbar-thumb:hover {
+  background: var(--color-star-blue, dodgerblue);
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -10px;
+  top: 12px;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--color-background);
+  border: 3px solid var(--color-secondary);
+}
+
+/* Timeline elements */
+.timeline-line {
+  position: absolute;
+  left: 7px;
+  top: 15px;
+  bottom: 0;
+  width: 2px;
+  z-index: 1;
+}
+
+.timeline-planet {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1rem;  /* Standardized planet size */
+  height: 1rem;  /* Standardized planet size */
+  border-radius: 50%;
+  z-index: 2;
+  animation: rotate-planet 10s linear infinite;
+}
+
+.planet-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-20deg);
+  width: 150%;
+  height: 30%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  z-index: 1;
+}
+
+/* Tech section */
+.tech-container {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  height: 100%;
+  background: rgba(58, 80, 107, 0.2);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-md);
+}
+
+@media (min-width: 640px) {
+  .tech-container {
+    padding: 1.5rem;
+  }
+}
+
+.tech-badge {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 9999px;
+  background: rgba(30, 144, 255, 0.15);
+  border: 1px solid var(--color-accent);
+  color: var(--color-text-accent);
+}
+
+@media (min-width: 640px) {
+  .tech-badge {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Planet rotation animation */
+@keyframes rotate-planet {
+  0% {
+    transform: rotate(0deg);
+    box-shadow: 0 0 5px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 15px currentColor;
+  }
+  100% {
+    transform: rotate(360deg);
+    box-shadow: 0 0 5px currentColor;
+  }
+}
+
+/* Text Colors */
+.text-primary {
+  color: var(--color-text-primary);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-light {
+  color: var(--color-text-light);
+}
+
+/* CTA Card */
+.cta-card {
+  background-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+/* Spacing Utilities */
+.space-y-6 > * + * {
+  margin-top: var(--space-md);
+}
+
+.space-y-8 > * + * {
+  margin-top: var(--space-lg);
+}
+
+.space-y-4 > * + * {
+  margin-top: var(--space-sm);
 }

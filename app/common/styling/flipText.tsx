@@ -15,7 +15,7 @@ const FlipText: React.FC<FlipTextProps> = ({
   text, 
   className = '', 
   style = {},
-  delayBetweenChars = 50 // default delay (feel free to adjust)
+  delayBetweenChars = 50
 }) => {
   const containerRef = useRef<HTMLSpanElement>(null);
   
