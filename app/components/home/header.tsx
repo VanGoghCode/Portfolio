@@ -4,7 +4,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { icons } from "../../media/icons";
+import { AboutIcon, BlogIcon, ContactIcon, HomeIcon, ProjectsIcon } from "../../media/icons";
 // import ThemeToggle from "../common/button/themeToggle";
 import FlipText from "../../common/styling/flipText";
 
@@ -45,11 +45,11 @@ const Header: React.FC<Props> = ({
     >
       <div className="py-2 space-y-1">
         {[
-          { name: "Home", icon: icons.Home },
-          { name: "Projects", icon: icons.Projects },
-          { name: "Blogs", icon: icons.Blog },
-          { name: "About", icon: icons.About },
-          { name: "Contact", icon: icons.Contact },
+          { name: "Home", icon: HomeIcon },
+          { name: "Projects", icon: ProjectsIcon },
+          { name: "Blogs", icon: BlogIcon },
+          { name: "About", icon: AboutIcon },
+          { name: "Contact", icon: ContactIcon },
         ].map(({ name, icon: IconComponent }) => (
           <a 
             key={name} 
@@ -96,16 +96,17 @@ const Header: React.FC<Props> = ({
           }}
         >
           <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-4 sm:px-6">
-            <h1 
+            <a 
               className="sm:text-xl font-bold glow-text"
               style={{ 
                 color: darkMode 
                   ? 'var(--color-secondary)' 
                   : 'var(--color-text-primary)' 
               }}
+              href="#home"
             >
               {title}
-            </h1>
+            </a>
             <nav className="hidden md:flex items-center gap-6">
               {["Home", "Projects", "Blogs", "About", "Contact"].map((item) => (
                 <a

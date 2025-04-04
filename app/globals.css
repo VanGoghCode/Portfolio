@@ -479,3 +479,58 @@ h1, h2, h3, h4, h5, h6 {
 .space-y-4 > * + * {
   margin-top: var(--space-sm);
 }
+
+/* Tech Stack Categories Component Styles */
+.tech-categories {
+  margin-bottom: 1.5rem;
+}
+
+/* Glow hover button styles for category buttons */
+.glow-hover-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.glow-hover-button::before {
+  content: '';
+  position: absolute;
+  top: var(--y, 0);
+  left: var(--x, 0);
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle closest-side,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: width 0.4s ease, height 0.4s ease;
+  z-index: 0;
+}
+
+.glow-hover-button:hover::before {
+  width: 200px;
+  height: 200px;
+}
+
+.glow-hover-button span {
+  position: relative;
+  z-index: 1;
+}
+
+/* Animation for tech badges */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Minimum height for tech badges container to prevent layout shifts */
+.min-h-20 {
+  min-height: 5rem;
+}

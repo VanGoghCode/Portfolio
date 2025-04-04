@@ -39,51 +39,37 @@ export const SocialIcons = [
   },
 ];
 
-export const TimelineItems: TimelineItemProps[] = [
+export const TimelineItems = [
   {
-    title: "Senior Developer @ Nebula Tech",
-    period: "2020 - Present",
-    description:
-      "Leading the stellar frontend team in developing galaxy-scale applications. Orchestrating meteor showers of features across multiple platforms.",
-    color: "var(--color-star-blue)",
+    title: "Master of Science in Information Technology",
+    period: "Expected August 2026",
+    description: "Arizona State University - GPA: 4.11/4.00",
+    color: "var(--color-star-white)"
   },
   {
-    title: "Full-Stack Engineer @ Cosmic Systems",
-    period: "2017 - 2020",
-    description:
-      "Engineered gravitational pull for user engagement. Launched and maintained constellation of microservices that process light-years of data.",
-    color: "var(--color-star-orange)",
+    title: "Tech Lead - Full-stack Developer (Cloud and AI technologies)",
+    period: "June 2023 - July 2024",
+    description: "Braincuber Technologies Pvt. Ltd. - Led technical mentoring, created documentation, conducted code reviews, and developed intuitive interfaces for data visualization.",
+    color: "var(--color-star-blue)"
   },
   {
-    title: "MSc in Quantum Computing @ Star Academy",
-    period: "2015 - 2017",
-    description:
-      'Graduated with honors, thesis on "Quantum Algorithms for Interstellar Navigation Systems"',
-    color: "var(--color-star-white)",
+    title: "Full-stack Developer Intern",
+    period: "February 2023 - May 2023",
+    description: "Braincuber Technologies Pvt. Ltd. - Collaborated on implementing new technologies, created technical guides, and supported troubleshooting in various programming languages.",
+    color: "var(--color-star-orange)"
   },
   {
-    title: "Frontend Developer @ Galactic Ventures",
-    period: "2014 - 2015",
-    description:
-      "Developed responsive interfaces for interplanetary communication systems. Optimized light-speed data transmission protocols.",
-    color: "var(--color-star-purple)",
-  },
-  {
-    title: "BSc in Computer Science @ Celestial University",
-    period: "2010 - 2014",
-    description:
-      "Specialized in distributed systems and planetary-scale databases. Graduated with highest honors.",
-    color: "var(--color-star-green)",
-  },
+    title: "Bachelor of Engineering in Information Technology",
+    period: "May 2023",
+    description: "Gujarat Technological University - GPA: 7.76/10.00",
+    color: "var(--color-star-purple)"
+  }
 ];
 
-export const TechStack = [
-  "React",
-  "TypeScript",
-  "Next.js",
-  "Node.js",
-  "GraphQL",
-  "AWS",
-  "Docker",
-  "TailwindCSS",
-];
+export const TechStack = {
+  "Frontend": ["HTML5", "CSS3", "JavaScript", "TypeScript", "React.js", "Next.js", "TailwindCSS", "UI/UX Design"],
+  "Backend": ["Python", "Node.js", "Express.js", "Flask", "RESTful API Development", "AI Service Integration"],
+  "Database": ["PostgreSQL", "MySQL", "MongoDB", "VectorDB", "Database Management"],
+  "AI & ML": ["NLP", "LLM API Integration", "RAG model", "AWS Bedrock"],
+  "DevOps & Tools": ["AWS", "Git", "GitHub", "G Suite", "MS Office Suite"]
+};

@@ -117,7 +117,8 @@ const Footer = () => {
             {["Privacy Policy", "Terms of Service"].map((title) => (
             <Link
               key={title}
-              href={title == "Privacy Policy" ? "privacy" : "terms" }
+              // href={title == "Privacy Policy" ? "privacy" : "terms" }
+              href="#home"
               className="hover:text-white transition-colors"
               style={{ color: "var(--color-text-secondary)" }}
             >

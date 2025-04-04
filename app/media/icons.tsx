@@ -172,18 +172,34 @@ export const GithubIcon = () => (
   </svg>
 );
 
-export const icons = {
-  Home: HomeIcon,
-  Projects: ProjectsIcon,
-  About: AboutIcon,
-  Contact: ContactIcon,
-  Blog: BlogIcon,
-  Theme: ThemeIcon,
-  Facebook: FacebookIcon,
-  X: XIcon,
-  Instagram: InstagramIcon,
-  Linkedin: LinkedinIcon,
-  Github: GithubIcon,
-};
+export const ChevronDownIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M6 9l6 6 6-6" />
+  </svg>
+);
 
-export default icons;
+export const ChevronUpIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M18 15l-6-6-6 6" />
+  </svg>
+);

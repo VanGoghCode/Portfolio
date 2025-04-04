@@ -5,16 +5,16 @@ import Image from "next/image";
 import {
   SocialIcons,
   TimelineItems,
-  TimelineItemProps,
-  TechStack,
 } from "../../common/constants/constants";
 import FlipText from "@/app/common/styling/flipText";
+import TechStackCategories from "./TechStackCategories";
 
+// Individual timeline item component
 const TimelineItem = ({
   item,
   index,
 }: {
-  item: TimelineItemProps;
+  item: any;
   index: number;
 }) => (
   <div className="relative pl-8 pb-6 m-3">
@@ -45,10 +45,6 @@ const TimelineItem = ({
   </div>
 );
 
-const TechBadge = ({ tech }: { tech: string }) => (
-  <span className="tech-badge">{tech}</span>
-);
-
 const About = () => {
   return (
     <div className="w-full container-custom py-6 md:py-12 lg:py-16">
@@ -74,13 +70,11 @@ const About = () => {
           </h2>
 
           <h3 className="text-lg sm:text-xl text-secondary text-gradient animate-fade-in">
-            Interstellar Developer
+            Full-Stack Developer & Data Visualization Engineer
           </h3>
 
           <p className="text-base sm:text-lg text-secondary animate-fade-in max-w-md mx-auto md:mx-0">
-            Navigating the digital cosmos with code as my spacecraft.
-            Specializing in stellar web technologies with 5+ light-years of
-            professional experience across the universe of development.
+            Software engineer specializing in web development and data visualization with expertise in Django, React.js, and Next.js. Currently pursuing a Master's in Information Technology at Arizona State University with professional experience in building interactive web applications and analytics dashboards.
           </p>
 
           <div className="flex space-x-4 mt-4 justify-center md:justify-start">
@@ -106,7 +100,7 @@ const About = () => {
         {/* Timeline Column */}
         <div className="md:w-7/10 space-y-6">
           <h2 className="text-xl sm:text-2xl font-bold text-gradient text-center md:text-left">
-            Orbital Trajectory
+            Professional Journey
           </h2>
 
           <div className="timeline-container">
@@ -120,13 +114,11 @@ const About = () => {
         <div className="md:w-3/10">
           <div className="tech-container">
             <h3 className="text-lg sm:text-xl font-semibold text-gradient mb-3 sm:mb-4 text-center md:text-left">
-              Technological Constellations
+              Technical Skills
             </h3>
-            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-              {TechStack.map((tech, index) => (
-                <TechBadge key={index} tech={tech} />
-              ))}
-            </div>
+            
+            {/* Replace the old TechStack map with the new categorized component */}
+            <TechStackCategories />
           </div>
         </div>
       </div>
