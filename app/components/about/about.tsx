@@ -3,13 +3,12 @@
 import React, { useState } from "react";
 import type { JSX } from "react";
 import { SocialIcons, TechStack } from "../../common/constants/constants";
-import TechStackCategories from "./TechStackCategories";
 import Gl from "@/app/common/styling/greenLetters";
 import AsuLetters from "@/app/common/styling/goldenLetters";
 import Wl from "@/app/common/styling/whiteLetters";
 import FlipText from "@/app/common/styling/flipText";
 import { motion, AnimatePresence } from "framer-motion";
-import { AwsIcon, ChevronDownIcon, ChevronUpIcon, GithubIcon } from "@/app/media/icons";
+import { AwsIcon, ChevronDownIcon, GithubIcon } from "@/app/media/icons";
 import { 
   HTMLIcon,
   CSSIcon,
@@ -195,13 +194,13 @@ const About = () => {
             <div className="text-secondary flex flex-col gap-4 w-full text-justify">
               {/* First paragraph always visible */}
               <span className="block">
-                I'm <Gl text="Kirtankumar" /> <Gl text="Thummar," /> pursuing my
-                Master's in Information Technology at{" "}
+                I&apos;m <Gl text="Kirtankumar" /> <Gl text="Thummar," /> pursuing my
+                Master&apos;s in Information Technology at{" "}
                 <AsuLetters text="Arizona" /> <AsuLetters text="State" />{" "}
                 <AsuLetters text="University." /> My background is in building
                 websites and applications that solve real problems for
                 businesses and their customers, approaching my work with an
-                artist's mindset - crafting digital solutions with the same care
+                artist&apos;s mindset - crafting digital solutions with the same care
                 and attention to detail.
               </span>
 
@@ -216,13 +215,13 @@ const About = () => {
                   everyone, not just technical people.
                 </span>
                 <span className="block">
-                  I'm fascinated by how we can make computers smarter while
+                  I&apos;m fascinated by how we can make computers smarter while
                   maintaining <Wl text="human-centric" /> <Wl text="design." /> I
                   want to make data visualization universally accessible and
                   meaningful - not just for boardrooms, but for everyone. This
                   means <Wl text="solving" /> <Wl text="even" /> <Wl text="the" />{" "}
                   <Wl text="smallest," /> <Wl text="often-overlooked" />{" "}
-                  <Wl text="problems" /> that people don't talk about, like making
+                  <Wl text="problems" /> that people don&apos;t talk about, like making
                   complex patterns understandable to a child or helping rural
                   communities visualize their agricultural data through simple
                   mobile interfaces.
@@ -239,7 +238,7 @@ const About = () => {
                   <Wl text="making" /> <Wl text="them" /> <Wl text="as" />{" "}
                   <Wl text="perfect" /> <Wl text="as" /> <Wl text="possible," />{" "}
                   treating each line of code like brushstrokes on a digital
-                  canvas. I'm particularly driven to bridge the gap between
+                  canvas. I&apos;m particularly driven to bridge the gap between
                   technical implementation and human experience, wanting to make
                   every interaction with technology feel as natural and insightful
                   as viewing a masterpiece painting.
