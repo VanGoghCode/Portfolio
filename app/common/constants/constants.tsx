@@ -67,9 +67,26 @@ export const TimelineItems = [
 ];
 
 export const TechStack = {
-  "Frontend": ["HTML5", "CSS3", "JavaScript", "TypeScript", "React.js", "Next.js", "TailwindCSS", "UI/UX Design"],
-  "Backend": ["Python", "Node.js", "Express.js", "Flask", "RESTful API Development", "AI Service Integration"],
-  "Database": ["PostgreSQL", "MySQL", "MongoDB", "VectorDB", "Database Management"],
+  "Frontend": ["HTML5", "CSS3", "JavaScript", "TypeScript", "React.js", "Next.js", "TailwindCSS"],
+  "Backend": ["Python", "Node.js", "Express.js", "Flask"],
+  "Database": ["PostgreSQL", "MySQL", "MongoDB", "VectorDB"],
   "AI & ML": ["NLP", "LLM API Integration", "RAG model", "AWS Bedrock"],
-  "DevOps & Tools": ["AWS", "Git", "GitHub", "G Suite", "MS Office Suite"]
+  "DevOps & Tools": ["AWS", "Git", "GitHub"]
+};
+
+export const ANIMATION_CONSTANTS = {
+  // Star animation factors
+  STAR_SPEED_FACTOR: 1.0,
+  STAR_SCROLL_SPEED_MOBILE: 10,
+  STAR_SCROLL_SPEED_DESKTOP: 40,
+  
+  // Asteroid animation factors
+  ASTEROID_SPEED_FACTOR: 1,
+  ASTEROID_INITIAL_SPEED_MIN: 15,
+  ASTEROID_INITIAL_SPEED_MAX: 4,
+  ASTEROID_RESET_SPEED_MIN: 15,
+  ASTEROID_RESET_SPEED_MAX: 4,
+  
+  // Parallax effect strength
+  PARALLAX_FACTOR: 1.0
 };

@@ -80,7 +80,7 @@ const Header: React.FC<Props> = ({
       <div className="relative w-full max-w-6xl">
         <div 
           className={`
-            backdrop-blur-[2px] 
+            backdrop-blur-[10px] 
             transition-all duration-300 ease-out 
             rounded-lg 
             border 

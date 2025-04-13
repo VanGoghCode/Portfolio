@@ -11,7 +11,7 @@ const Footer = () => {
   const [copied, setCopied] = useState(false);
 
   const copyEmailToClipboard = () => {
-    const email = "vangoghcode@protonmail.com";
+    const email = "kirtanthummar.uni@gmail.com";
     navigator.clipboard.writeText(email).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 3000);
@@ -79,7 +79,7 @@ const Footer = () => {
               >
                 <span className="mr-1">Email:</span>
                 <span className="truncate">
-                  <FlipText text="vangoghcode@protonmail.com" />
+                  <FlipText text="kirtanthummar.uni@gmail.com" />
                 </span>
                 {copied && (
                   <span

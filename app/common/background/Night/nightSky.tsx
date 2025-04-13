@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { GLTFLoader, GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { ANIMATION_CONSTANTS } from "../../constants/constants";
 
 interface Star {
   x: number;
@@ -41,7 +42,10 @@ const NightSky: React.FC = () => {
   const raycasterRef = useRef<THREE.Raycaster>(new THREE.Raycaster());
   const mouseRef = useRef<THREE.Vector2>(new THREE.Vector2());
   const touchStartTimeRef = useRef<number>(0);
-  const touchStartPositionRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const touchStartPositionRef = useRef<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
   const selectedAsteroidRef = useRef<THREE.Object3D | null>(null);
   const mouseX = useRef(0);
   const mouseY = useRef(0);
@@ -63,7 +67,9 @@ const NightSky: React.FC = () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     const getColor = (varName: string, fallback: string) =>
-      getComputedStyle(document.documentElement).getPropertyValue(varName).trim() || fallback;
+      getComputedStyle(document.documentElement)
+        .getPropertyValue(varName)
+        .trim() || fallback;
     const starColors = [
       getColor("--color-star-blue", "#4169e1"),
       getColor("--color-star-orange", "#ffa500"),
@@ -87,7 +93,10 @@ const NightSky: React.FC = () => {
         glowSize,
         color: starColors[Math.floor(Math.random() * starColors.length)],
         opacity: Math.random(),
-        speed: (Math.random() * 0.005 + 0.001) * (Math.random() > 0.5 ? 1 : -1),
+        speed:
+          (Math.random() * 0.005 + 0.001) *
+          (Math.random() > 0.5 ? 1 : -1) *
+          ANIMATION_CONSTANTS.STAR_SPEED_FACTOR,
         maxOpacity: Math.random() * 0.5 + 0.5,
       };
     });
@@ -97,7 +106,12 @@ const NightSky: React.FC = () => {
     if (!threeContainerRef.current) return;
     const scene = new THREE.Scene();
     sceneRef.current = scene;
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(
+      60,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
     camera.position.set(0, 5, 30);
     camera.lookAt(0, 0, -20);
     cameraRef.current = camera;
@@ -133,7 +147,7 @@ const NightSky: React.FC = () => {
     scene.add(rimLight);
     lightsRef.current.push(rimLight);
     const loader = new GLTFLoader();
-    const asteroidCount = window.innerWidth < 768 ? 7 : 25;
+    const asteroidCount = window.innerWidth < 768 ? 7 : 10;
     loader.load(
       "media/glb/asteroid2.glb",
       (gltf: GLTF) => {
@@ -152,49 +166,60 @@ const NightSky: React.FC = () => {
           }
         });
         const camera = cameraRef.current;
-        asteroidsRef.current = Array.from({ length: asteroidCount }, (_, index) => {
-          const asteroid = gltf.scene.clone();
-          const zPos = -10 - Math.random() * 50;
-          const distanceFromCamera = camera.position.z - zPos;
-          const fovRad = THREE.MathUtils.degToRad(camera.fov);
-          const visibleHeight = 2 * Math.tan(fovRad / 2) * distanceFromCamera;
-          const visibleWidth = visibleHeight * camera.aspect;
-          asteroid.position.set(
-            visibleWidth + index * 20,
-            (Math.random() - 0.5) * visibleHeight,
-            zPos
-          );
-          const scale = Math.random() * 0.8 + 0.5;
-          asteroid.scale.set(scale, scale, scale);
-          const originalMaterialsMap: { [key: string]: THREE.Material | THREE.Material[] } = {};
-          asteroid.traverse((child) => {
-            if (child instanceof THREE.Mesh) {
-              child.uuid = THREE.MathUtils.generateUUID();
-              if (child.material) {
-                originalMaterialsMap[child.uuid] = Array.isArray(child.material)
-                  ? [...child.material]
-                  : child.material;
+        asteroidsRef.current = Array.from(
+          { length: asteroidCount },
+          (_, index) => {
+            const asteroid = gltf.scene.clone();
+            const zPos = -10 - Math.random() * 50;
+            const distanceFromCamera = camera.position.z - zPos;
+            const fovRad = THREE.MathUtils.degToRad(camera.fov);
+            const visibleHeight = 2 * Math.tan(fovRad / 2) * distanceFromCamera;
+            const visibleWidth = visibleHeight * camera.aspect;
+            asteroid.position.set(
+              visibleWidth + index * 20,
+              (Math.random() - 0.5) * visibleHeight,
+              zPos
+            );
+            const scale = Math.random() * 0.8 + 0.5;
+            asteroid.scale.set(scale, scale, scale);
+            const originalMaterialsMap: {
+              [key: string]: THREE.Material | THREE.Material[];
+            } = {};
+            asteroid.traverse((child) => {
+              if (child instanceof THREE.Mesh) {
+                child.uuid = THREE.MathUtils.generateUUID();
+                if (child.material) {
+                  originalMaterialsMap[child.uuid] = Array.isArray(
+                    child.material
+                  )
+                    ? [...child.material]
+                    : child.material;
+                }
               }
-            }
-          });
-          asteroid.userData = {
-            speed: Math.random() * 4 + 4,
-            ySpeed: (Math.random() - 0.5) * 1.2,
-            rotationSpeed: {
-              x: (Math.random() - 0.5) * 0.3,
-              y: (Math.random() - 0.5) * 0.3,
-              z: (Math.random() - 0.5) * 0.3,
-            },
-            isThrown: false,
-            throwVelocity: { x: 0, y: 0, z: 0 },
-            throwRotation: { x: 0, y: 0, z: 0 },
-            throwTime: 0,
-            originalPosition: asteroid.position.clone(),
-            originalMaterialsMap,
-          } as AsteroidUserData;
-          scene.add(asteroid);
-          return asteroid;
-        });
+            });
+            asteroid.userData = {
+              speed:
+                (Math.random() *
+                  ANIMATION_CONSTANTS.ASTEROID_INITIAL_SPEED_MAX +
+                  ANIMATION_CONSTANTS.ASTEROID_INITIAL_SPEED_MIN) *
+                ANIMATION_CONSTANTS.ASTEROID_SPEED_FACTOR,
+                ySpeed: (Math.random() - 0.5) * 1.2,
+              rotationSpeed: {
+                x: (Math.random() - 0.5) * 0.3,
+                y: (Math.random() - 0.5) * 0.3,
+                z: (Math.random() - 0.5) * 0.3,
+              },
+              isThrown: false,
+              throwVelocity: { x: 0, y: 0, z: 0 },
+              throwRotation: { x: 0, y: 0, z: 0 },
+              throwTime: 0,
+              originalPosition: asteroid.position.clone(),
+              originalMaterialsMap,
+            } as AsteroidUserData;
+            scene.add(asteroid);
+            return asteroid;
+          }
+        );
       },
       undefined,
       () => {}
@@ -204,9 +229,16 @@ const NightSky: React.FC = () => {
   const handlePointerMove = (e: PointerEvent) => {
     mouseX.current = e.clientX;
     mouseY.current = e.clientY;
-    mouseRef.current.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
+    mouseRef.current.set(
+      (e.clientX / window.innerWidth) * 2 - 1,
+      -(e.clientY / window.innerHeight) * 2 + 1
+    );
     checkPointerOverAsteroid();
-    if (selectedAsteroidRef.current && !selectedAsteroidRef.current.userData.isThrown && !isMobile) {
+    if (
+      selectedAsteroidRef.current &&
+      !selectedAsteroidRef.current.userData.isThrown &&
+      !isMobile
+    ) {
       updateSelectedAsteroidPosition();
     }
   };
@@ -214,14 +246,20 @@ const NightSky: React.FC = () => {
   const checkPointerOverAsteroid = () => {
     if (!cameraRef.current || !sceneRef.current) return;
     raycasterRef.current.setFromCamera(mouseRef.current, cameraRef.current!);
-    const intersects = raycasterRef.current.intersectObjects(asteroidsRef.current, true);
+    const intersects = raycasterRef.current.intersectObjects(
+      asteroidsRef.current,
+      true
+    );
     setIsPointerOverAsteroid(intersects.length > 0);
   };
 
   const handlePointerDown = (e: PointerEvent) => {
     if (!interactionEnabled || isMobile) return;
     raycasterRef.current.setFromCamera(mouseRef.current, cameraRef.current!);
-    const intersects = raycasterRef.current.intersectObjects(asteroidsRef.current, true);
+    const intersects = raycasterRef.current.intersectObjects(
+      asteroidsRef.current,
+      true
+    );
     if (intersects.length > 0) {
       touchStartTimeRef.current = performance.now();
       touchStartPositionRef.current = { x: e.clientX, y: e.clientY };
@@ -236,7 +274,10 @@ const NightSky: React.FC = () => {
   const checkAsteroidIntersection = () => {
     if (!cameraRef.current || !sceneRef.current || isMobile) return;
     raycasterRef.current.setFromCamera(mouseRef.current, cameraRef.current);
-    const intersects = raycasterRef.current.intersectObjects(asteroidsRef.current, true);
+    const intersects = raycasterRef.current.intersectObjects(
+      asteroidsRef.current,
+      true
+    );
     if (intersects.length > 0) {
       let asteroidObj: THREE.Object3D | null = intersects[0].object;
       while (asteroidObj && !asteroidsRef.current.includes(asteroidObj)) {
@@ -253,11 +294,17 @@ const NightSky: React.FC = () => {
   const updateSelectedAsteroidPosition = () => {
     if (!selectedAsteroidRef.current || !cameraRef.current || isMobile) return;
     const zPos = selectedAsteroidRef.current.position.z;
-    const vector = new THREE.Vector3(mouseRef.current.x, mouseRef.current.y, 0.5);
+    const vector = new THREE.Vector3(
+      mouseRef.current.x,
+      mouseRef.current.y,
+      0.5
+    );
     vector.unproject(cameraRef.current);
     const dir = vector.sub(cameraRef.current.position).normalize();
     const distance = (zPos - cameraRef.current.position.z) / dir.z;
-    const pos = cameraRef.current.position.clone().addScaledVector(dir, distance);
+    const pos = cameraRef.current.position
+      .clone()
+      .addScaledVector(dir, distance);
     selectedAsteroidRef.current.position.set(pos.x, pos.y, zPos);
   };
 
@@ -308,11 +355,19 @@ const NightSky: React.FC = () => {
     const particles = new THREE.Group();
     for (let i = 0; i < particleCount; i++) {
       const geometry = new THREE.SphereGeometry(0.2, 4, 4);
-      const material = new THREE.MeshBasicMaterial({ color: 0xaaaaaa, transparent: true, opacity: 0.8 });
+      const material = new THREE.MeshBasicMaterial({
+        color: 0xaaaaaa,
+        transparent: true,
+        opacity: 0.8,
+      });
       const particle = new THREE.Mesh(geometry, material);
       particle.position.copy(asteroid.position);
       particle.userData = {
-        velocity: { x: (Math.random() - 0.5) * 2, y: (Math.random() - 0.5) * 2, z: (Math.random() - 0.5) * 2 },
+        velocity: {
+          x: (Math.random() - 0.5) * 2,
+          y: (Math.random() - 0.5) * 2,
+          z: (Math.random() - 0.5) * 2,
+        },
         lifespan: 1.0,
       };
       particles.add(particle);
@@ -324,7 +379,8 @@ const NightSky: React.FC = () => {
         particles.traverse((obj) => {
           if (obj instanceof THREE.Mesh) {
             obj.geometry.dispose();
-            if (Array.isArray(obj.material)) obj.material.forEach((mat) => mat.dispose());
+            if (Array.isArray(obj.material))
+              obj.material.forEach((mat) => mat.dispose());
             else obj.material.dispose();
           }
         });
@@ -353,7 +409,10 @@ const NightSky: React.FC = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const scrollSpeed = window.innerWidth < 768 ? 7 : 15;
+    const scrollSpeed =
+      window.innerWidth < 768
+        ? ANIMATION_CONSTANTS.STAR_SCROLL_SPEED_MOBILE
+        : ANIMATION_CONSTANTS.STAR_SCROLL_SPEED_DESKTOP;
     autoScrollOffset.current += scrollSpeed * deltaTime;
     const deltaX = mouseX.current - prevMouseX.current;
     const deltaY = mouseY.current - prevMouseY.current;
@@ -373,16 +432,32 @@ const NightSky: React.FC = () => {
       }
       let baseX = (star.originalX - autoScrollOffset.current) % canvas.width;
       if (baseX < 0) baseX += canvas.width;
-      
-      // RESTORED STAR PARALLAX EFFECT
-      star.x = baseX + dx.current * (star.size / 5) * 0.15;
-      star.y = star.originalY + dy.current * (star.size / 5) * 0.15;
-      
+
+      star.x =
+        baseX +
+        dx.current *
+          (star.size / 5) *
+          0.15 *
+          ANIMATION_CONSTANTS.PARALLAX_FACTOR;
+      star.y =
+        star.originalY +
+        dy.current *
+          (star.size / 5) *
+          0.15 *
+          ANIMATION_CONSTANTS.PARALLAX_FACTOR;
+
       if (star.y < -50 || star.y > canvas.height + 50) {
         ctx.restore();
         return;
       }
-      const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.glowSize);
+      const gradient = ctx.createRadialGradient(
+        star.x,
+        star.y,
+        0,
+        star.x,
+        star.y,
+        star.glowSize
+      );
       gradient.addColorStop(0, star.color);
       gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
       ctx.globalAlpha = star.opacity * 0.3;
@@ -418,7 +493,8 @@ const NightSky: React.FC = () => {
         asteroid.rotation.x += throwRotation!.x * deltaTime * 2;
         asteroid.rotation.y += throwRotation!.y * deltaTime * 2;
         asteroid.rotation.z += throwRotation!.z * deltaTime * 2;
-        const throwDuration = (performance.now() - asteroid.userData.throwTime!) / 1000;
+        const throwDuration =
+          (performance.now() - asteroid.userData.throwTime!) / 1000;
         if (
           asteroid.position.x < -visibleWidth * 3 ||
           asteroid.position.x > visibleWidth * 3 ||
@@ -433,7 +509,10 @@ const NightSky: React.FC = () => {
             (Math.random() - 0.5) * visibleHeight,
             -10 - Math.random() * 50
           );
-          asteroid.userData.speed = Math.random() * 2 + 2;
+          asteroid.userData.speed =
+            (Math.random() * ANIMATION_CONSTANTS.ASTEROID_RESET_SPEED_MAX +
+              ANIMATION_CONSTANTS.ASTEROID_RESET_SPEED_MIN) *
+            ANIMATION_CONSTANTS.ASTEROID_SPEED_FACTOR;
           asteroid.userData.ySpeed = (Math.random() - 0.5) * 1.2;
           asteroid.userData.isThrown = false;
           asteroid.userData.throwVelocity = { x: 0, y: 0, z: 0 };
@@ -458,7 +537,10 @@ const NightSky: React.FC = () => {
           origPos.y = (Math.random() - 0.5) * visibleHeight;
           origPos.z = -10 - Math.random() * 50;
           asteroid.position.copy(origPos);
-          asteroid.userData.speed = Math.random() * 4 + 4;
+          asteroid.userData.speed =
+            (Math.random() * ANIMATION_CONSTANTS.ASTEROID_INITIAL_SPEED_MAX +
+              ANIMATION_CONSTANTS.ASTEROID_INITIAL_SPEED_MIN) *
+            ANIMATION_CONSTANTS.ASTEROID_SPEED_FACTOR;
           asteroid.userData.ySpeed = (Math.random() - 0.5) * 1.2;
           asteroid.userData.isThrown = false;
           asteroid.userData.throwVelocity = { x: 0, y: 0, z: 0 };
@@ -476,8 +558,16 @@ const NightSky: React.FC = () => {
   const updateLights = () => {
     if (!cameraRef.current) return;
     const camPos = cameraRef.current.position;
-    lightsRef.current[1].position.set(camPos.x + 10, camPos.y + 20, camPos.z + 10);
-    (lightsRef.current[1] as THREE.DirectionalLight).target.position.set(camPos.x, camPos.y, camPos.z);
+    lightsRef.current[1].position.set(
+      camPos.x + 10,
+      camPos.y + 20,
+      camPos.z + 10
+    );
+    (lightsRef.current[1] as THREE.DirectionalLight).target.position.set(
+      camPos.x,
+      camPos.y,
+      camPos.z
+    );
     (lightsRef.current[1] as THREE.DirectionalLight).target.updateMatrixWorld();
     lightsRef.current[2].position.set(camPos.x - 15, camPos.y, camPos.z + 15);
   };
@@ -507,7 +597,9 @@ const NightSky: React.FC = () => {
     initializeStars();
     if (supportsWebGL) initializeThreeJs();
     animate();
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("pointermove", handlePointerMove, {
+      passive: true,
+    });
     window.addEventListener("pointerdown", handlePointerDown);
     window.addEventListener("pointerup", handlePointerUp);
     window.addEventListener("resize", handleResize);
@@ -525,7 +617,8 @@ const NightSky: React.FC = () => {
         sceneRef.current.traverse((object) => {
           if (object instanceof THREE.Mesh) {
             object.geometry?.dispose();
-            if (Array.isArray(object.material)) object.material.forEach((mat) => mat.dispose());
+            if (Array.isArray(object.material))
+              object.material.forEach((mat) => mat.dispose());
             else object.material?.dispose();
           }
         });
@@ -535,12 +628,16 @@ const NightSky: React.FC = () => {
 
   return (
     <div className="w-full h-full relative overflow-hidden">
-      <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0" aria-hidden="true" />
+      <canvas
+        ref={canvasRef}
+        className="fixed top-0 left-0 w-full h-full z-0"
+        aria-hidden="true"
+      />
       <div
         ref={threeContainerRef}
         className="fixed top-0 left-0 w-full h-full z-20"
         style={{
-          pointerEvents: isPointerOverAsteroid ? 'auto' : 'none'
+          pointerEvents: isPointerOverAsteroid ? "auto" : "none",
         }}
         aria-hidden="true"
       />

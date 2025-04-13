@@ -3,7 +3,7 @@
 
 /* Import fonts */
 @import url('https://fonts.googleapis.com/css2?family=Megrim&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 /* Import Tailwind */
 @import "tailwindcss";
 
@@ -12,7 +12,7 @@
   scroll-behavior: smooth;
   
   /* Typography */
-  --font-primary: 'Poppins', sans-serif;  
+  --font-primary: "Space Mono", monospace, 'Poppins', sans-serif;  
   
   /* Color Palette - Main */
   --color-background: #F8F9FA;
@@ -20,6 +20,7 @@
   --color-primary: #3A506B;
   --color-secondary: #18c67e;
   --color-accent: #1E90FF;
+  --color-asu: #FFCC33;
   
   /* Color Palette - Text */
   --color-text-primary: #333333;
@@ -32,6 +33,33 @@
   --color-warning: #FFC107;
   --color-error: #DC3545;
   --color-info: #17A2B8;
+  
+  /* Skill Colors */
+  --color-skill-html: #E34F26;
+  --color-skill-css: #1572B6;
+  --color-skill-javascript: #F7DF1E;
+  --color-skill-typescript: #3178C6;
+  --color-skill-react: #61DAFB;
+  --color-skill-nextjs: #ffffff;
+  --color-skill-tailwind: #06B6D4;
+  --color-skill-python: #3776AB;
+  --color-skill-nodejs: #339933;
+  --color-skill-express: #339933;
+  --color-skill-flask: #3776AB;
+  --color-skill-postgresql: #4169E1;
+  --color-skill-mysql: #4169E1;
+  --color-skill-mongodb: #47A248;
+  --color-skill-vectordb: #4169E1;
+  --color-skill-nlp: #00A67D;
+  --color-skill-llm: #00A67D;
+  --color-skill-rag: #00A67D;
+  --color-skill-aws: #FF9900;
+  --color-skill-git: #F05032;
+  --color-skill-gsuite: #4285F4;
+  --color-skill-msoffice: #D83B01;
+  --color-skill-rest: #339933;
+  --color-skill-ai: #00A67D;
+  --color-skill-database: #4169E1;
   
   /* Star Colors */
   --color-star-white: #FFFFFF;
@@ -138,8 +166,15 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: var(--space-md);
-  padding-right: var(--space-md);
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-custom {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
 }
 
 /* Button Styles */
@@ -186,7 +221,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: color var(--transition-normal);
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  --char-index: 0; /* Dynamically set from JS */
+  --char-index: 0;
 }
 
 /* Whitespace handling */
@@ -234,10 +269,10 @@ h1, h2, h3, h4, h5, h6 {
 /* Separate glow animation to pulse the text-shadow */
 @keyframes textGlow {
   0%, 100% {
-    text-shadow: 0 0 3px var(--color-text-accent);
+    text-shadow: 0 0 1px var(--color-text-accent);
   }
   50% {
-    text-shadow: 0 0 3px var(--color-text-accent);
+    text-shadow: 0 0 1px var(--color-text-accent);
   }
 }
 
@@ -281,7 +316,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glow-text {
-  color: var(--color-text-light);
   transition: text-shadow var(--transition-speed);
   text-shadow: 0 0 0 var(--color-secondary),
   0 0 0 var(--color-secondary),
@@ -294,6 +328,38 @@ h1, h2, h3, h4, h5, h6 {
                0 0 100px var(--color-secondary),
                0 0 50px var(--color-secondary),
                0 0 50px var(--color-secondary);
+}
+
+.glow-text-asu {
+  color: var(--color-asu);
+  transition: text-shadow var(--transition-speed);
+  text-shadow: 0 0 0 var(--color-asu),
+  0 0 0 var(--color-asu),
+  0 0 0 var(--color-asu),
+  0 0 20px var(--color-asu);
+}
+
+.glow-text-asu:hover {
+  text-shadow: 0 0 20px var(--color-asu),
+               0 0 100px var(--color-asu),
+               0 0 50px var(--color-asu),
+               0 0 50px var(--color-asu);
+}
+
+.glow-text-White {
+  color: var(--color-text-light);
+  transition: text-shadow var(--transition-speed);
+  text-shadow: 0 0 0 rgba(255, 255, 255, 0.3),
+               0 0 0 rgba(255, 255, 255, 0.3),
+               0 0 0 rgba(255, 255, 255, 0.3),
+               0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.glow-text-White:hover {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7),
+               0 0 50px rgba(255, 255, 255, 0.7),
+               0 0 30px rgba(255, 255, 255, 0.7),
+               0 0 30px rgba(255, 255, 255, 0.7);
 }
 
 /* Profile Image */
@@ -533,4 +599,219 @@ h1, h2, h3, h4, h5, h6 {
 /* Minimum height for tech badges container to prevent layout shifts */
 .min-h-20 {
   min-height: 5rem;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Skill icon glow effects */
+.skill-icon {
+  transition: all 0.3s ease;
+}
+
+/* Mobile-first: colorful by default with consistent glow */
+.skill-icon-html {
+  color: #E34F26;
+  filter: drop-shadow(0 0 var(--glow-spread) #E34F26);
+}
+
+.skill-icon-css {
+  color: #1572B6;
+  filter: drop-shadow(0 0 var(--glow-spread) #1572B6);
+}
+
+.skill-icon-js {
+  color: #F7DF1E;
+  filter: drop-shadow(0 0 var(--glow-spread) #F7DF1E);
+}
+
+.skill-icon-ts {
+  color: #3178C6;
+  filter: drop-shadow(0 0 var(--glow-spread) #3178C6);
+}
+
+.skill-icon-react {
+  color: #61DAFB;
+  filter: drop-shadow(0 0 var(--glow-spread) #61DAFB);
+}
+
+.skill-icon-next {
+  color: #ffffff;
+  filter: drop-shadow(0 0 var(--glow-spread) #ffffff);
+}
+
+.skill-icon-tailwind {
+  color: #06B6D4;
+  filter: drop-shadow(0 0 var(--glow-spread) #06B6D4);
+}
+
+.skill-icon-python {
+  color: var(--color-skill-python);
+  filter: drop-shadow(0 0 var(--glow-spread) var(--color-skill-python));
+}
+
+.skill-icon-node {
+  color: #339933;
+  filter: drop-shadow(0 0 var(--glow-spread) #339933);
+}
+
+.skill-icon-database {
+  color: var(--color-skill-database);
+  filter: drop-shadow(0 0 var(--glow-spread) var(--color-skill-database));
+}
+
+.skill-icon-aws {
+  color: #252F3E;
+  filter: drop-shadow(0 0 var(--glow-spread) #FF9900);
+}
+
+.skill-icon-ai {
+  color: #00A67D;
+  filter: drop-shadow(0 0 var(--glow-spread) #00A67D);
+}
+
+.skill-icon-devops {
+  color: #FF9900;
+  filter: drop-shadow(0 0 var(--glow-spread) #FF9900);
+}
+
+.skill-icon-github {
+  color: var(--glow-github);
+  filter: drop-shadow(0 0 var(--glow-spread) var(--glow-github));
+}
+
+/* Desktop: Reset colors and add hover effects with the same glow as mobile */
+@media (min-width: 768px) {
+  .skill-icon-html {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: #E34F26;
+      filter: drop-shadow(0 0 var(--glow-spread) #E34F26);
+    }
+  }
+
+  .skill-icon-css {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: #1572B6;
+      filter: drop-shadow(0 0 var(--glow-spread) #1572B6);
+    }
+  }
+
+  .skill-icon-js {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: #F7DF1E;
+      filter: drop-shadow(0 0 var(--glow-spread) #F7DF1E);
+    }
+  }
+
+  .skill-icon-ts {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: #3178C6;
+      filter: drop-shadow(0 0 var(--glow-spread) #3178C6);
+    }
+  }
+
+  .skill-icon-react {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: #61DAFB;
+      filter: drop-shadow(0 0 var(--glow-spread) #61DAFB);
+    }
+  }
+
+  .skill-icon-next {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: #ffffff;
+      filter: drop-shadow(0 0 var(--glow-spread) #ffffff);
+    }
+  }
+
+  .skill-icon-tailwind {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: #06B6D4;
+      filter: drop-shadow(0 0 var(--glow-spread) #06B6D4);
+    }
+  }
+
+  .skill-icon-python {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: var(--color-skill-python);
+      filter: drop-shadow(0 0 var(--glow-spread) var(--color-skill-python));
+    }
+  }
+
+  .skill-icon-node {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: #339933;
+      filter: drop-shadow(0 0 var(--glow-spread) #339933);
+    }
+  }
+
+  .skill-icon-database {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: var(--color-skill-database);
+      filter: drop-shadow(0 0 var(--glow-spread) var(--color-skill-database));
+    }
+  }
+
+  .skill-icon-aws {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: #252F3E;
+      filter: drop-shadow(0 0 var(--glow-spread) #FF9900);
+    }
+  }
+
+  .skill-icon-ai {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: #00A67D;
+      filter: drop-shadow(0 0 var(--glow-spread) #00A67D);
+    }
+  }
+
+  .skill-icon-devops {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: #FF9900;
+      filter: drop-shadow(0 0 var(--glow-spread) #FF9900);
+    }
+  }
+
+  .skill-icon-github {
+    color: var(--color-text-secondary);
+    filter: none;
+    .group:hover & {
+      color: var(--glow-github);
+      filter: drop-shadow(0 0 var(--glow-spread) var(--glow-github));
+      transform: scale(1.1);
+    }
+  }
 }
