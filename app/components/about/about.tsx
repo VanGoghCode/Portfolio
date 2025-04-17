@@ -174,7 +174,7 @@ const About = () => {
         </div>
 
         {/* Three Main Sections in Flexbox */}
-        <div className="flex flex-col md:flex-column p-6 gap-6">
+        <div className="flex flex-col md:flex-column py-6 gap-6">
           {/* About Me Section */}
           <section
             className="p-8"
