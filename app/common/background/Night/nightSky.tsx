@@ -61,7 +61,6 @@ const NightSky: React.FC = () => {
   const [isPointerOverAsteroid, setIsPointerOverAsteroid] = useState(false);
   const [isPointerOverAstronaut, setIsPointerOverAstronaut] = useState(false);
   const [modelsLoaded, setModelsLoaded] = useState(false);
-  const [loadingProgress, setLoadingProgress] = useState(0);
 
   const initializeStars = () => {
     if (!canvasRef.current) return;
@@ -152,13 +151,11 @@ const NightSky: React.FC = () => {
     lightsRef.current.push(rimLight);
     
     // Track loading progress
-    let modelsToLoad = 2; // Asteroid and astronaut
+    const modelsToLoad = 2; // Asteroid and astronaut
     let modelsLoaded = 0;
     
     const updateLoadingProgress = () => {
       modelsLoaded++;
-      const progress = (modelsLoaded / modelsToLoad) * 100;
-      setLoadingProgress(progress);
       if (modelsLoaded === modelsToLoad) {
         setModelsLoaded(true);
       }
@@ -240,8 +237,6 @@ const NightSky: React.FC = () => {
         );
         updateLoadingProgress();
       },
-      (progress) => {
-      },
       (error) => {
         console.error("Error loading asteroid model:", error);
         updateLoadingProgress(); // Still count as loaded to avoid blocking
@@ -288,8 +283,6 @@ const NightSky: React.FC = () => {
         scene.add(astronaut);
         astronautRef.current = astronaut;
         updateLoadingProgress();
-      },
-      (progress) => {
       },
       (error) => {
         console.error("Error loading astronaut model:", error);
