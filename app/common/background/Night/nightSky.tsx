@@ -38,7 +38,6 @@ const NightSky: React.FC = () => {
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const asteroidsRef = useRef<THREE.Object3D[]>([]);
-  const astronautRef = useRef<THREE.Object3D | null>(null);
   const lightsRef = useRef<(THREE.Light | THREE.DirectionalLight)[]>([]);
   const raycasterRef = useRef<THREE.Raycaster>(new THREE.Raycaster());
   const mouseRef = useRef<THREE.Vector2>(new THREE.Vector2());
@@ -59,7 +58,6 @@ const NightSky: React.FC = () => {
   const [interactionEnabled, setInteractionEnabled] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isPointerOverAsteroid, setIsPointerOverAsteroid] = useState(false);
-  const [isPointerOverAstronaut, setIsPointerOverAstronaut] = useState(false);
   const [modelsLoaded, setModelsLoaded] = useState(false);
 
   const initializeStars = () => {
@@ -151,10 +149,13 @@ const NightSky: React.FC = () => {
     lightsRef.current.push(rimLight);
     
     // Track loading progress
-    const modelsToLoad = 2; // Asteroid and astronaut
+    const modelsToLoad = 1; // Just asteroid
     let modelsLoaded = 0;
+    let hasCompletedLoading = false;
     
     const updateLoadingProgress = () => {
+      if (hasCompletedLoading) return; // Prevent duplicate calls
+      hasCompletedLoading = true;
       modelsLoaded++;
       if (modelsLoaded === modelsToLoad) {
         setModelsLoaded(true);
@@ -163,10 +164,23 @@ const NightSky: React.FC = () => {
     
     const loader = new GLTFLoader();
     const asteroidCount = window.innerWidth < 768 ? 7 : 10;
+    
+    // Create a fallback timer in case the model loading takes too long
+    const fallbackTimer = setTimeout(() => {
+      if (!hasCompletedLoading) {
+        console.warn("Model loading timed out, using fallback");
+        updateLoadingProgress();
+      }
+    }, 10000); // 10 second timeout
+    
     loader.load(
       "media/glb/asteroid.glb",
       (gltf: GLTF) => {
-        if (!cameraRef.current) return;
+        clearTimeout(fallbackTimer);
+        if (!cameraRef.current) {
+          updateLoadingProgress();
+          return;
+        }
         const asteroidMaterial = new THREE.MeshStandardMaterial({
           color: new THREE.Color("#2D3033"),
           roughness: 0.5,
@@ -237,56 +251,73 @@ const NightSky: React.FC = () => {
         );
         updateLoadingProgress();
       },
-      (error) => {
-        console.error("Error loading asteroid model:", error);
-        updateLoadingProgress(); // Still count as loaded to avoid blocking
-      }
-    );
-
-    // Load astronaut model
-    loader.load(
-      "media/glb/astronaut.glb",
-      (gltf: GLTF) => {
-        if (!cameraRef.current) return;
-        const astronaut = gltf.scene;
-        const camera = cameraRef.current;
-        const zPos = -20 - Math.random() * 30;
-        const distanceFromCamera = camera.position.z - zPos;
-        const fovRad = THREE.MathUtils.degToRad(camera.fov);
-        const visibleHeight = 2 * Math.tan(fovRad / 2) * distanceFromCamera;
-        const visibleWidth = visibleHeight * camera.aspect;
-        
-        // Position astronaut on the right side of the screen (like asteroids)
-        astronaut.position.set(
-          visibleWidth * 0.8,
-          (Math.random() - 0.5) * visibleHeight * 0.5,
-          zPos
-        );
-        
-        // Scale astronaut appropriately
-        const scale = 3;
-        astronaut.scale.set(scale, scale, scale);
-        
-        // Add astronaut-specific properties
-        astronaut.userData = {
-          speed: ANIMATION_CONSTANTS.ASTEROID_INITIAL_SPEED_MIN * 0.3 * ANIMATION_CONSTANTS.ASTEROID_SPEED_FACTOR, // Slower speed
-          ySpeed: (Math.random() - 0.5) * 0.5, // Gentler vertical movement
-          rotationSpeed: {
-            x: 0, // No rotation on x-axis
-            y: 0, // No rotation on y-axis
-            z: (Math.random() - 0.5) * 0.2, // Only rotate on z-axis
-          },
-          originalPosition: astronaut.position.clone(),
-        };
-        
-        // Add astronaut to scene
-        scene.add(astronaut);
-        astronautRef.current = astronaut;
-        updateLoadingProgress();
+      (progress) => {
+        if (progress.total && progress.total > 0) {
+        } else {
+        }
       },
       (error) => {
-        console.error("Error loading astronaut model:", error);
-        updateLoadingProgress(); // Still count as loaded to avoid blocking
+        console.error("Error loading asteroid model:", error);
+        clearTimeout(fallbackTimer);
+        
+        // If we have asteroids already (partial success), log them
+        if (asteroidsRef.current.length > 0) {
+        } else {
+          console.warn("Creating fallback asteroids due to loading error");
+          // Create simple fallback asteroids if loading failed completely
+          if (cameraRef.current && sceneRef.current) {
+            const scene = sceneRef.current;
+            const camera = cameraRef.current;
+            asteroidsRef.current = Array.from({ length: asteroidCount }, (_, index) => {
+              // Simple geometry as fallback
+              const geometry = new THREE.IcosahedronGeometry(1, 0);
+              const material = new THREE.MeshStandardMaterial({
+                color: new THREE.Color("#2D3033"),
+                roughness: 0.7,
+                metalness: 0.2,
+              });
+              const asteroid = new THREE.Mesh(geometry, material);
+              
+              const zPos = -10 - Math.random() * 50;
+              const distanceFromCamera = camera.position.z - zPos;
+              const fovRad = THREE.MathUtils.degToRad(camera.fov);
+              const visibleHeight = 2 * Math.tan(fovRad / 2) * distanceFromCamera;
+              const visibleWidth = visibleHeight * camera.aspect;
+              
+              asteroid.position.set(
+                visibleWidth + index * 20,
+                (Math.random() - 0.5) * visibleHeight,
+                zPos
+              );
+              
+              const scale = Math.random() * 0.8 + 0.5;
+              asteroid.scale.set(scale, scale, scale);
+              asteroid.castShadow = window.innerWidth > 768;
+              asteroid.receiveShadow = window.innerWidth > 768;
+              
+              asteroid.userData = {
+                speed: (Math.random() * ANIMATION_CONSTANTS.ASTEROID_INITIAL_SPEED_MAX + 
+                  ANIMATION_CONSTANTS.ASTEROID_INITIAL_SPEED_MIN) * ANIMATION_CONSTANTS.ASTEROID_SPEED_FACTOR,
+                ySpeed: (Math.random() - 0.5) * 1.2,
+                rotationSpeed: {
+                  x: (Math.random() - 0.5) * 0.3,
+                  y: (Math.random() - 0.5) * 0.3,
+                  z: (Math.random() - 0.5) * 0.3,
+                },
+                isThrown: false,
+                throwVelocity: { x: 0, y: 0, z: 0 },
+                throwRotation: { x: 0, y: 0, z: 0 },
+                throwTime: 0,
+                originalPosition: asteroid.position.clone(),
+                originalMaterialsMap: {},
+              } as AsteroidUserData;
+              
+              scene.add(asteroid);
+              return asteroid;
+            });
+          }
+        }
+        updateLoadingProgress();
       }
     );
   };
@@ -299,7 +330,6 @@ const NightSky: React.FC = () => {
       -(e.clientY / window.innerHeight) * 2 + 1
     );
     checkPointerOverAsteroid();
-    checkPointerOverAstronaut();
     if (
       selectedAsteroidRef.current &&
       !selectedAsteroidRef.current.userData.isThrown &&
@@ -317,16 +347,6 @@ const NightSky: React.FC = () => {
       true
     );
     setIsPointerOverAsteroid(intersects.length > 0);
-  };
-
-  const checkPointerOverAstronaut = () => {
-    if (!cameraRef.current || !sceneRef.current || !astronautRef.current) return;
-    raycasterRef.current.setFromCamera(mouseRef.current, cameraRef.current!);
-    const intersects = raycasterRef.current.intersectObject(
-      astronautRef.current,
-      true
-    );
-    setIsPointerOverAstronaut(intersects.length > 0);
   };
 
   const handlePointerDown = (e: PointerEvent) => {
@@ -629,37 +649,6 @@ const NightSky: React.FC = () => {
         }
       }
     });
-
-    // Update astronaut position - now moving right to left like asteroids
-    if (astronautRef.current) {
-      const astronaut = astronautRef.current;
-      const zPos = astronaut.position.z;
-      const distanceFromCamera = camera.position.z - zPos;
-      const visibleHeight = 2 * tanFov * distanceFromCamera;
-      const visibleWidth = visibleHeight * camera.aspect;
-      
-      // Move astronaut from right to left at a slower speed (like asteroids)
-      const origPos = astronaut.userData.originalPosition;
-      astronaut.position.x = origPos.x - astronaut.userData.speed * deltaTime;
-      astronaut.position.y = origPos.y + astronaut.userData.ySpeed * deltaTime;
-      
-      // Gentle rotation - only on z-axis
-      astronaut.rotation.x = 0; // Keep x rotation fixed
-      astronaut.rotation.y = 0; // Keep y rotation fixed
-      astronaut.rotation.z += astronaut.userData.rotationSpeed.z * deltaTime;
-      
-      // Update original position
-      origPos.x -= astronaut.userData.speed * deltaTime;
-      origPos.y += astronaut.userData.ySpeed * deltaTime;
-      
-      // Reset astronaut position when it goes off screen (left side)
-      if (origPos.x < -visibleWidth) {
-        origPos.x = visibleWidth * 0.8;
-        origPos.y = (Math.random() - 0.5) * visibleHeight * 0.5;
-        origPos.z = -20 - Math.random() * 30;
-        astronaut.position.copy(origPos);
-      }
-    }
   };
 
   const updateLights = () => {
@@ -744,7 +733,7 @@ const NightSky: React.FC = () => {
         ref={threeContainerRef}
         className="fixed top-0 left-0 w-full h-full z-20"
         style={{
-          pointerEvents: isPointerOverAsteroid || isPointerOverAstronaut ? "auto" : "none",
+          pointerEvents: isPointerOverAsteroid ? "auto" : "none",
           opacity: modelsLoaded ? 1 : 0,
           transition: "opacity 0.5s ease-in-out",
         }}

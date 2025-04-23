@@ -1,144 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import type { JSX } from "react";
-import { SocialIcons, TechStack } from "../../common/constants/constants";
+import { SocialIcons, TechStack, ActivityData, SkillIconClasses, SkillIcons, SkillColors } from "../../common/constants/constants";
 import Gl from "@/app/common/styling/greenLetters";
 import AsuLetters from "@/app/common/styling/goldenLetters";
 import Wl from "@/app/common/styling/whiteLetters";
 import FlipText from "@/app/common/styling/flipText";
 import { motion, AnimatePresence } from "framer-motion";
-import { AwsIcon, ChevronDownIcon, GithubIcon } from "@/app/media/icons";
-import { 
-  HTMLIcon,
-  CSSIcon,
-  JavaScriptIcon,
-  TypeScriptIcon,
-  ReactIcon,
-  NextJSIcon,
-  TailwindIcon,
-  PythonIcon,
-  NodeJSIcon,
-  DatabaseIcon,
-  AIIcon,
-  DevOpsIcon
-} from "@/app/media/icons";
+import { ChevronDownIcon } from "@/app/media/icons";
 
 type TechStackKey = keyof typeof TechStack;
 
-const skillColors: { [key: string]: string } = {
-  "HTML5": "var(--color-skill-html)",
-  "CSS3": "var(--color-skill-css)",
-  "JavaScript": "var(--color-skill-javascript)",
-  "TypeScript": "var(--color-skill-typescript)",
-  "React.js": "var(--color-skill-react)",
-  "Next.js": "var(--color-skill-nextjs)",
-  "TailwindCSS": "var(--color-skill-tailwind)",
-  "Python": "var(--color-skill-python)",
-  "Node.js": "var(--color-skill-nodejs)",
-  "Express.js": "var(--color-skill-express)",
-  "Flask": "var(--color-skill-flask)",
-  "PostgreSQL": "var(--color-skill-postgresql)",
-  "MySQL": "var(--color-skill-mysql)",
-  "MongoDB": "var(--color-skill-mongodb)",
-  "VectorDB": "var(--color-skill-vectordb)",
-  "NLP": "var(--color-skill-nlp)",
-  "LLM API Integration": "var(--color-skill-llm)",
-  "RAG model": "var(--color-skill-rag)",
-  "AWS Bedrock": "var(--color-skill-aws)",
-  "AWS": "var(--color-skill-aws)",
-  "Git": "var(--color-skill-git)",
-  "GitHub": "var(--glow-github)",
-  "G Suite": "var(--color-skill-gsuite)",
-  "MS Office Suite": "var(--color-skill-msoffice)",
-  "RESTful API Development": "var(--color-skill-rest)",
-  "AI Service Integration": "var(--color-skill-ai)",
-  "Database Management": "var(--color-skill-database)"
-};
-
-const skillIcons: { [key: string]: () => JSX.Element } = {
-  "HTML5": HTMLIcon,
-  "CSS3": CSSIcon,
-  "JavaScript": JavaScriptIcon,
-  "TypeScript": TypeScriptIcon,
-  "React.js": ReactIcon,
-  "Next.js": NextJSIcon,
-  "TailwindCSS": TailwindIcon,
-  "Python": PythonIcon,
-  "Node.js": NodeJSIcon,
-  "Express.js": NodeJSIcon,
-  "Flask": PythonIcon,
-  "PostgreSQL": DatabaseIcon,
-  "MySQL": DatabaseIcon,
-  "MongoDB": DatabaseIcon,
-  "VectorDB": DatabaseIcon,
-  "NLP": AIIcon,
-  "LLM API Integration": AIIcon,
-  "RAG model": AIIcon,
-  "AWS Bedrock": AwsIcon,
-  "AWS": AwsIcon,
-  "Git": DevOpsIcon,
-  "GitHub": GithubIcon,
-  "G Suite": DevOpsIcon,
-  "MS Office Suite": DevOpsIcon,
-  "RESTful API Development": NodeJSIcon,
-  "AI Service Integration": AIIcon,
-  "Database Management": DatabaseIcon
-};
-
-const skillIconClasses: { [key: string]: string } = {
-  "HTML5": "skill-icon skill-icon-html",
-  "CSS3": "skill-icon skill-icon-css",
-  "JavaScript": "skill-icon skill-icon-js",
-  "TypeScript": "skill-icon skill-icon-ts",
-  "React.js": "skill-icon skill-icon-react",
-  "Next.js": "skill-icon skill-icon-next",
-  "TailwindCSS": "skill-icon skill-icon-tailwind",
-  "Python": "skill-icon skill-icon-python",
-  "Node.js": "skill-icon skill-icon-node",
-  "Express.js": "skill-icon skill-icon-node",
-  "Flask": "skill-icon skill-icon-python",
-  "PostgreSQL": "skill-icon skill-icon-database",
-  "MySQL": "skill-icon skill-icon-database",
-  "MongoDB": "skill-icon skill-icon-database",
-  "VectorDB": "skill-icon skill-icon-database",
-  "NLP": "skill-icon skill-icon-ai",
-  "LLM API Integration": "skill-icon skill-icon-ai",
-  "RAG model": "skill-icon skill-icon-ai",
-  "AWS Bedrock": "skill-icon skill-icon-devops",
-  "AWS": "skill-icon skill-icon-devops",
-  "Git": "skill-icon skill-icon-github",
-  "GitHub": "skill-icon skill-icon-github",
-  "AI Service Integration": "skill-icon skill-icon-ai",
-};
-
 const About = () => {
-  const activityData = [
-    {
-      title: "Research & Development",
-      description: "Exploring new technologies in data visualization and web development frameworks."
-    },
-    {
-      title: "Master's Program",
-      description: "Pursuing advanced studies in Information Technology at Arizona State University."
-    },
-    {
-      title: "Open Source Contributions",
-      description: "Actively contributing to open-source projects focused on data visualization libraries."
-    },
-    {
-      title: "Personal Projects",
-      description: "Building interactive web applications leveraging NextJS and Django."
-    },
-    {
-      title: "Technical Writing",
-      description: "Creating tutorials and articles about modern web technologies and visualization techniques."
-    },
-    {
-      title: "Community Mentoring",
-      description: "Helping junior developers learn data visualization and full-stack development concepts."
-    }
-  ];
 
   const [activeCategory, setActiveCategory] = useState<TechStackKey | null>(null);
   const [showFullAbout, setShowFullAbout] = useState(false);
@@ -267,12 +140,12 @@ const About = () => {
               <span className="flex gap-2 items-center">
                 <FlipText
                   className="text-[var(--color-primary)]"
-                  text="# Things I am doing />"
+                  text="# Things I'm doing />"
                 />
               </span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {activityData.map((activity, index) => (
+              {ActivityData.map((activity, index) => (
                 <div
                   key={index}
                   className="p-4 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] hover:border-[var(--color-secondary)] transition-all"
@@ -307,8 +180,8 @@ const About = () => {
                     key={category}
                     onClick={() => setActiveCategory(activeCategory === category ? null : category as TechStackKey)}
                     className={`px-4 py-2 rounded-lg text-sm transition-all cursor-pointer
-                      ${activeCategory === category 
-                        ? 'bg-[var(--color-secondary)] text-white' 
+                      ${activeCategory === category
+                        ? 'bg-[var(--color-secondary)] text-white'
                         : 'bg-[rgba(255,255,255,0.02)] text-secondary hover:bg-[rgba(255,255,255,0.04)]'
                       } border border-[rgba(255,255,255,0.05)] hover:border-[var(--color-secondary)]`}
                     whileHover={{ scale: 1.02 }}
@@ -326,7 +199,7 @@ const About = () => {
                   </motion.button>
                 ))}
               </div>
-              
+
               <AnimatePresence mode="wait">
                 {activeCategory && (
                   <motion.div
@@ -347,14 +220,14 @@ const About = () => {
                           transition={{ duration: 0.3 }}
                           className="group relative p-2 sm:p-3 rounded-lg border border-[rgba(255,255,255,0.05)] hover:border-[var(--color-secondary)] transition-all bg-[rgba(255,255,255,0.02)] hover:bg-[rgba(255,255,255,0.04)]"
                           style={{
-                            '--hover-color': skillColors[skill] || '#ffffff'
+                            '--hover-color': SkillColors[skill] || '#ffffff'
                           } as React.CSSProperties}
                         >
                           <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.05)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                           <div className="relative flex items-center gap-2">
-                            {skillIcons[skill] && (
-                              <div className={`transition-all duration-300 group-hover:text-[var(--hover-color)] ${skillIconClasses[skill] || 'skill-icon'}`}>
-                                {skillIcons[skill]()}
+                            {SkillIcons[skill] && (
+                              <div className={`transition-all duration-300 group-hover:text-[var(--hover-color)] ${SkillIconClasses[skill] || 'skill-icon'}`}>
+                                {SkillIcons[skill]()}
                               </div>
                             )}
                             <p className="text-xs sm:text-sm text-secondary transition-all duration-300 group-hover:text-[var(--hover-color)]">{skill}</p>

@@ -83,7 +83,7 @@ const Footer = () => {
                 </span>
                 {copied && (
                   <span
-                    className="absolute -top-6 md:-top-0 md:right-43 right-0 px-2 py-1 text-xs rounded"
+                    className="absolute -top-6 md:-top-0 md:right-33 right-0 px-2 py-1 text-xs rounded"
                     style={{
                       backgroundColor: "var(--color-success)",
                       color: "var(--color-text-light)",
