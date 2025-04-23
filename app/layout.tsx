@@ -4,7 +4,7 @@ import './globals.css';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'K',
+  title: 'K I R T A N',
   description: 'Building digital worlds where code meets creativity, no compromises',
 };
 
