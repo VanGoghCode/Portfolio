@@ -4,8 +4,8 @@ import './globals.css';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Creative Developer Portfolio',
-  description: 'A portfolio showcasing creative web development work',
+  title: 'K',
+  description: 'Building digital worlds where code meets creativity, no compromises',
 };
 
 export default function RootLayout({
