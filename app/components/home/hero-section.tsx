@@ -9,7 +9,7 @@ const HeroSection: React.FC = () => {
   const [typedText, setTypedText] = useState('');
   const [charClass, setCharClass] = useState<string[]>([]);
   const [revealComplete, setRevealComplete] = useState(false);
-  const fullText = 'Think like a Creator ...';
+  const fullText = 'Vision Beyond Reality ...';
   const typingSpeed = 120;
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const glitchIntervalRef = useRef<NodeJS.Timeout | null>(null);
