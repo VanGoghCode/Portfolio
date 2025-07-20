@@ -174,7 +174,7 @@ const NightSky: React.FC = () => {
     }, 10000); // 10 second timeout
     
     loader.load(
-      "media/glb/asteroid.glb",
+      "/media/glb/asteroid.glb",
       (gltf: GLTF) => {
         clearTimeout(fallbackTimer);
         if (!cameraRef.current) {

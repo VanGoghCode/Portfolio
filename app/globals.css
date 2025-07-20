@@ -112,7 +112,8 @@
   --transition-speed: 0.5s;
 }
 
-/* Dark mode overrides */
+/* Dark mode overrides - Commented out to force light mode for all browsers */
+/*
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: #121212;
@@ -123,6 +124,7 @@
     --color-text-secondary: #AAAAAA;
   }
 }
+*/
 
 /* Base Styles */
 body {
@@ -131,6 +133,16 @@ body {
   color: var(--color-text-primary);
   line-height: 1.5;
   cursor: url('/media/png/night_cursor.png') 2 2, auto;
+}
+
+/* Force light mode for all browsers regardless of system preference */
+html:root {
+  --color-background: #F8F9FA;
+  --color-foreground: #000000;
+  --color-primary: #3A506B;
+  --color-secondary: #18c67e;
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -984,4 +996,239 @@ h1, h2, h3, h4, h5, h6 {
 
 .hero-char-active {
   transform: translateY(-2px);
+}
+
+/* Blog Content Styles */
+.blog-content code {
+  background-color: rgba(var(--color-primary), 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.blog-content pre {
+  background-color: rgba(var(--color-primary), 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1rem 0;
+  border-left: 4px solid var(--color-accent);
+}
+
+.blog-content pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.blog-content blockquote {
+  border-left: 4px solid var(--color-accent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Code Block Container Styles */
+.code-block-container {
+  position: relative;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.code-language {
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.copy-code-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-mono);
+}
+
+.copy-code-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.copy-code-btn:active {
+  transform: scale(0.95);
+}
+
+.copy-code-btn.copied {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  color: white;
+}
+
+.code-block-container pre {
+  margin: 0;
+  padding: 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow-x: auto;
+}
+
+.code-block-container code {
+  background: transparent;
+  color: #f8f8f2;
+  font-family: 'Fira Code', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Syntax highlighting for different languages */
+.language-javascript .token.keyword,
+.language-typescript .token.keyword,
+.language-js .token.keyword,
+.language-ts .token.keyword {
+  color: #66d9ef;
+}
+
+.language-javascript .token.string,
+.language-typescript .token.string,
+.language-js .token.string,
+.language-ts .token.string {
+  color: #a6e22e;
+}
+
+.language-javascript .token.comment,
+.language-typescript .token.comment,
+.language-js .token.comment,
+.language-ts .token.comment {
+  color: #75715e;
+}
+
+.language-bash .token.function {
+  color: #fd971f;
+}
+
+.language-css .token.selector {
+  color: #f92672;
+}
+
+.language-css .token.property {
+  color: #66d9ef;
+}
+
+.language-html .token.tag {
+  color: #f92672;
+}
+
+.language-html .token.attr-name {
+  color: #a6e22e;
+}
+
+.language-html .token.attr-value {
+  color: #e6db74;
+}
+
+/* Blog specific content styling */
+.blog-content {
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.blog-content h1,
+.blog-content h2,
+.blog-content h3,
+.blog-content h4,
+.blog-content h5,
+.blog-content h6 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.blog-content h1 {
+  font-size: 2rem;
+  color: var(--color-primary);
+}
+
+.blog-content h2 {
+  font-size: 1.75rem;
+  color: var(--color-secondary);
+}
+
+.blog-content h3 {
+  font-size: 1.5rem;
+  color: var(--color-accent);
+}
+
+.blog-content p {
+  margin-bottom: 1.5rem;
+}
+
+.blog-content ul,
+.blog-content ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.blog-content li {
+  margin-bottom: 0.5rem;
+}
+
+.blog-content a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.blog-content a:hover {
+  color: var(--color-secondary);
+}
+
+.blog-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+
+.blog-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.blog-content th,
+.blog-content td {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.blog-content th {
+  background-color: rgba(var(--color-primary), 0.1);
+  font-weight: 600;
 }

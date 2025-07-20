@@ -4,6 +4,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { AboutIcon, BlogIcon, ContactIcon, HomeIcon, ProjectsIcon } from "../../media/icons";
 // import ThemeToggle from "../common/button/themeToggle";
 import FlipText from "../../common/styling/flipText";
@@ -45,15 +46,15 @@ const Header: React.FC<Props> = ({
     >
       <div className="py-2 space-y-1">
         {[
-          { name: "Home", icon: HomeIcon },
-          { name: "Projects", icon: ProjectsIcon },
-          { name: "Blogs", icon: BlogIcon },
-          { name: "About", icon: AboutIcon },
-          { name: "Contact", icon: ContactIcon },
-        ].map(({ name, icon: IconComponent }) => (
-          <a 
+          { name: "Home", icon: HomeIcon, href: "/" },
+          { name: "Projects", icon: ProjectsIcon, href: "/#projects" },
+          { name: "Blogs", icon: BlogIcon, href: "/blogs" },
+          { name: "About", icon: AboutIcon, href: "/#about" },
+          { name: "Contact", icon: ContactIcon, href: "/#contact" },
+        ].map(({ name, icon: IconComponent, href }) => (
+          <Link 
             key={name} 
-            href={`#${name.toLowerCase()}`} 
+            href={href} 
             className="flex items-center px-4 py-3"
           >
             <IconComponent />
@@ -69,7 +70,7 @@ const Header: React.FC<Props> = ({
                 <FlipText text={name} />
               </span>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </div>
@@ -96,29 +97,34 @@ const Header: React.FC<Props> = ({
           }}
         >
           <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-4 sm:px-6">
-            <a 
+            <Link 
               className="sm:text-xl font-bold glow-text"
               style={{ 
                 color: darkMode 
                   ? 'var(--color-secondary)' 
                   : 'var(--color-text-primary)' 
               }}
-              href="#home"
+              href="/"
             >
               {title}
-            </a>
+            </Link>
             <nav className="hidden md:flex items-center gap-6">
-              {["Home", "Blogs", "About", "Contact"].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
+              {[
+                { name: "Home", href: "/" },
+                { name: "Blogs", href: "/blogs" },
+                { name: "About", href: "/#about" },
+                { name: "Contact", href: "/#contact" }
+              ].map(({ name, href }) => (
+                <Link
+                  key={name}
+                  href={href}
                   className={`
                     text-sm font-medium transition-colors hover:text-[var(--color-accent)]
                     ${darkMode ? 'text-[var(--color-text-light)]' : 'text-[var(--color-text-primary)]'}
                   `}
                 >
-                <FlipText text={item} />
-                </a>
+                <FlipText text={name} />
+                </Link>
               ))}
               {/* <ThemeToggle onToggle={onToggle} /> */}
             </nav>
